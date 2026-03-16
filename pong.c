@@ -46,6 +46,15 @@ int main() {
     bool running = true;
     SDL_Event event;
 
+    typedef struct {
+            float x, y;
+            float width, height;
+            float speed;
+        } Paddle;
+
+        Paddle leftPaddle = {50, WINDOW_HEIGHT / 2 - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED};
+        Paddle rightPaddle = {WINDOW_WIDTH - 50 - PADDLE_WIDTH, WINDOW_HEIGHT / 2 - PADDLE_HEIGHT / 2, PADDLE_WIDTH, PADDLE_HEIGHT, PADDLE_SPEED};
+
     while (running) {
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
@@ -57,10 +66,18 @@ int main() {
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-        SDL_RenderFillRect(renderer, &(SDL_Rect){WINDOW_WIDTH / 2 - BALL_SIZE / 2, 
+        SDL_RenderFillRect(renderer, &(SDL_Rect)
+            {WINDOW_WIDTH / 2 - BALL_SIZE / 2, 
             WINDOW_HEIGHT / 2 - BALL_SIZE / 2, 
             BALL_SIZE, BALL_SIZE});
+
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+        SDL_RenderFillRect(renderer, &(SDL_Rect)
+            {leftPaddle.x, leftPaddle.y, leftPaddle.width, leftPaddle.height});
+        SDL_RenderFillRect(renderer, &(SDL_Rect)
+            {rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height});
         SDL_RenderPresent(renderer);
+        
     }
 
     SDL_Quit();
