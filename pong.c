@@ -29,8 +29,16 @@ int main() {
     0
 );
 
-    if (!window) {
+     if (!window) {
         printf("Could not create window: %s\n", SDL_GetError());
+        SDL_Quit();
+        return 1;
+    }
+
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        printf("Could not create renderer: %s\n", SDL_GetError());
+        SDL_DestroyWindow(window);
         SDL_Quit();
         return 1;
     }
@@ -45,7 +53,14 @@ int main() {
             }
         }
 
-        // Game logic and rendering will go here
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderClear(renderer);
+        SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+
+        SDL_RenderFillRect(renderer, &(SDL_Rect){WINDOW_WIDTH / 2 - BALL_SIZE / 2, 
+            WINDOW_HEIGHT / 2 - BALL_SIZE / 2, 
+            BALL_SIZE, BALL_SIZE});
+        SDL_RenderPresent(renderer);
     }
 
     SDL_Quit();
