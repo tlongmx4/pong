@@ -9,8 +9,8 @@
 #define PADDLE_WIDTH 10
 #define PADDLE_HEIGHT 100
 #define BALL_SIZE 10
-#define PADDLE_SPEED 5
-#define BALL_SPEED 5
+#define PADDLE_SPEED 3
+#define BALL_SPEED 3
 
 int main() {
     // Initialize SDL
@@ -77,7 +77,13 @@ int main() {
         SDL_RenderFillRect(renderer, &(SDL_Rect)
             {rightPaddle.x, rightPaddle.y, rightPaddle.width, rightPaddle.height});
         SDL_RenderPresent(renderer);
-        
+
+        if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_W]) {
+            leftPaddle.y -= leftPaddle.speed;
+        }
+        if (SDL_GetKeyboardState(NULL)[SDL_SCANCODE_S]) {
+            leftPaddle.y += leftPaddle.speed;
+        }
     }
 
     SDL_Quit();
